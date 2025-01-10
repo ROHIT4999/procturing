@@ -1,0 +1,242 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Layout for containers */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+input[type="email"], input[type="password"], input[type="hidden"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+input[type="email"]:focus, input[type="password"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Video and camera container */
+.camera {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+video {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+button#capture,
+button#capture-login,
+button#capture-verify,
+button#capture-live {
+    margin-top: 10px;
+}
+
+/* Signup Page */
+.signup-container {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.signup-container h2 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+/* Login Page */
+.login-container {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+/* Verification Page (Index) */
+.index-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.index-container h1 {
+    color: #333;
+    font-size: 36px;
+}
+
+.index-container p {
+    font-size: 18px;
+    color: #666;
+}
+
+#index-container button {
+    margin-top: 20px;
+    background-color: #ff0000;
+    color: white;
+}
+
+#index-container button:hover {
+    background-color: #cc0000;
+}
+
+#verification-result {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+#verification-result.success {
+    color: green;
+}
+
+#verification-result.error {
+    color: red;
+}
+
+/* Live Recognition Page */
+.live-recognition-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.live-recognition-container h1 {
+    color: #333;
+    font-size: 36px;
+}
+
+.live-recognition-container p {
+    font-size: 18px;
+    color: #666;
+}
+
+.live-recognition-container #video-live {
+    max-width: 500px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.live-recognition-container button {
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.live-recognition-container button:hover {
+    background-color: #45a049;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    .camera {
+        width: 100%;
+    }
+}
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+#videoContainer {
+    display: inline-block;
+    border: 5px solid transparent;
+    border-radius: 10px;
+    transition: border-color 0.5s, box-shadow 0.5s;
+}
+
+#video {
+    width: 640px;
+    height: 480px;
+    border-radius: 10px;
+}
+
+#videoContainer.glow-green {
+    border-color: #00ff00;
+    box-shadow: 0 0 20px #00ff00;
+}
+
+#videoContainer.glow-red {
+    border-color: #ff0000;
+    box-shadow: 0 0 20px #ff0000;
+}
+
+#videoTitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff0000;
+    margin-bottom: 10px;
+}
+
+#alertMessage {
+    color: red;
+    font-weight: bold;
+}
+.logout-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.logout-button:hover {
+    background-color: #d32f2f;
+}
+

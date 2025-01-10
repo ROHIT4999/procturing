@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="videoTitle">Live Recognition - Not Identified</title>
+    <link rel="stylesheet" href="static\styles.css">
+    <script src="/static/scripts.js" defer></script>
+</head>
+<body>
+    <header>
+        <button id="logout-btn" class="logout-button">Logout</button>
+    </header>
+    <h1>Live Face Recognition</h1>
+    <div id="videoContainer">
+        <video id="video" autoplay></video>
+    </div>
+    <div id="status"></div>
+    <div id="alertMessage"></div>
+
+    <script>
+        const video = document.getElementById('video');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoTitle = document.getElementById('videoTitle');
+        const alertMessage = document.getElementById('alertMessage');
+
+        let sessionUser = null; // Store the session user for comparison
+        let recognitionActive = true; // Flag to control recognition process
+
+        // Start video feed
+        async function startVideo() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+                video.srcObject = stream;
+            } catch (err) {
+                alertMessage.innerText = 'Error accessing camera: ' + err.message;
+            }
+        }
+
+        // Start the video stream
+        startVideo();
+
+        // Send the frame to the backend for comparison every second
+        setInterval(async () => {
+            if (!recognitionActive) return; // Stop processing if recognition is halted
+            // Take a snapshot of the current video frame
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert the image to base64 data URL
+            const imageData = canvas.toDataURL('image/png');
+
+            // Send the image data to the backend for comparison
+            fetch('/verify_live', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ photo: imageData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.user === sessionUser) {
+                        // New user identified (different from the session user)
+                        videoContainer.className = 'glow-red';
+                        videoTitle.innerText = `Live Recognition - Mismatch! Identified as ${sessionUser}`;
+                        videoTitle.style.color = '#ff0000'; // red for mismatch
+                        alertMessage.innerText = ' New user identified'; // Clear any previous error messages
+                    } else if (data.user === data.multipleFaces) {
+                        // Multiple faces detected
+                        recognitionActive = false; // Stop further recognition
+                        videoContainer.className = 'glow-red';
+                        videoTitle.innerText = `Live Recognition - Multiple Persons Detected as ${data.multiplefaces}`;
+                        videoTitle.style.color = '#ff0000'; // Red for error
+                        alertMessage.innerText = 'Multiple persons detected. Recognition stopped.';
+                    } else {
+                        // Same session user identified
+                        videoContainer.className = 'glow-green';
+                        videoTitle.innerText = `Live Recognition - Identified as ${data.user}`;
+                        videoTitle.style.color = '#00ff00'; // green for success
+                        alertMessage.innerText = 'Same Session user identified';// Clear any previous error messages
+                    }
+                } else {
+                    // User not identified
+                    videoContainer.className = 'glow-red';
+                    videoTitle.innerText = 'Live Recognition - Not Identified';
+                    videoTitle.style.color = '#ff0000'; // Red for failure
+                    alertMessage.innerText = 'User not identified';
+                }
+            })
+            .catch(err => {
+                console.error('Error sending frame:', err);
+                videoContainer.className = 'glow-red';
+                videoTitle.innerText = 'Live Recognition - Error';
+                videoTitle.style.color = '#ff0000'; // Red for error
+                alertMessage.innerText = 'An error occurred during face recognition. Please try again.';
+            });
+        }, 1000);  // Send data every second
+        // Logout Logic
+    const logoutButton = document.getElementById("logout-btn");
+    if (logoutButton) {
+        logoutButton.addEventListener("click", () => {
+            fetch("/logout", { method: "POST" })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        alert(data.message);
+                        window.location.href = "/login"; // Redirect to login page
+                    } else {
+                        alert(data.error || "Logout failed!");
+                    }
+                })
+                .catch((err) => console.error("Logout error:", err));
+        });
+    }
+    </script>
+</body>
+</html>

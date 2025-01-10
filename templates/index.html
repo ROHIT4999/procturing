@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="/static/scripts.js" defer></script>
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="index-container">
+        <header>
+            <button id="logout-btn" class="logout-button">Logout</button>
+        </header>
+        <h1>Welcome to the Dashboard!</h1>
+        <p>Verify your identity to continue:</p>
+        <div class="camera">
+            <video id="video" autoplay></video>
+            <button id="capture-verify">Capture Photo</button>
+        </div>
+        <canvas id="canvas-verify" hidden></canvas>
+        <input type="hidden" id="photo-verify">
+
+        <button id="verify-btn">Verify</button>
+        <p id="verification-result"></p>
+    </div>
+</body>
+</html>

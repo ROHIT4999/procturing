@@ -8,7 +8,7 @@ import os
 
 
 app = Flask(__name__)
-app.secret_key = "super_secret_key"  # Replace with a secure key
+
 
 # Database connection
 db = pymysql.connect(
